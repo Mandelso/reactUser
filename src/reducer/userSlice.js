@@ -32,19 +32,17 @@ const userSlice = createSlice ({
             state.users=[...state.users,action.payload]
         },
         deleteUser:(state,action)=> {
-          state.users = state.users.filter((user)=>{
-            if(user.id !== action.payload)
-            return user
-          })
+          state.users = state.users.filter((user)=>user.id !== action.payload)
         },
 
         editUser:(state,action) => {
-         state.users = state.users.map((user)=> {
-          console.log();
-          if (user.id === action.payload.id)
-          return action.payload.newUser;
-          return user;
-          })
+          const {name, email, gen} = action.payload
+         const updatedUser = state.users.find((user)=> user.id === action.payload.id )
+         if(updatedUser){
+          updatedUser.name = name
+          updatedUser.email = email
+          updatedUser.gen = gen
+         }
         }
     }
 })

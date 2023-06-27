@@ -9,8 +9,9 @@ const User = ({user}) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    console.log(user)
+
     const dispatch = useDispatch()
-    
    
    
     const handleDelete = (id) => {
@@ -26,7 +27,10 @@ const User = ({user}) => {
                 </Modal.Header>
                 <Modal.Body>
                     <EditUserForm 
-                    closeModal={handleClose} />
+                    closeModal={handleClose} 
+                    user = {user} 
+                    />
+                    
                 </Modal.Body>
             </Modal>
 
@@ -40,7 +44,7 @@ const User = ({user}) => {
                             <p>Gen: {user.gen}</p>
                         </Card.Text>
                         <Button variant="primary" size='sm' onClick={handleShow}>Edit</Button>
-                        <Button variant="danger" size='sm' onClick={handleDelete(user.id)}>Delete</Button>
+                        <Button variant="danger" size='sm' onClick={() => handleDelete(user.id)}>Delete</Button>
                     </Card.Body>
                 </Card>
             </Col>

@@ -1,68 +1,58 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import {Form, Button} from 'react-bootstrap';
+import { useDispatch} from 'react-redux';
+import { editUser } from '../reducer/userSlice';
 
-class EditUserForm extends Component {
-    constructor(props){
-        super(props);
-        this.state={
-            name: props.userInfo.name,
-            email: props.userInfo.email,
-            gen: props.userInfo.gen,
-            id: props.userInfo.id
+
+const EditUserForm = ({closeModal ,user}) =>  {
+        const [name, setName] = useState(user.name)
+        const [email, setEmail] = useState(user.email)
+        const [gen, setGen] = useState(user.gen)
+
+        const dispatch = useDispatch()
+        
+       console.log(user)
+        
+        const handleSubmit = (e) => {
+            e.preventDefault()
+            const newUser = {id: user.id, name, email, gen}
+            dispatch(editUser(newUser))
+            closeModal()
         }
-    }
 
-    handleChange = (e) => {
-        e.preventDefault();
-        this.setState({
-            [e.target.name] : e.target.value
-        })
-    }
-
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.editUser(this.state.id, this.state);
-        this.setState({
-            name: "",
-            email: "",
-            gen: ""
-        });
-        this.props.closeModal();
-        console.log("form submitted: ", this.state);
-    }
-    render() {
+   
         return (
-            <Form onSubmit={this.handleSubmit}>
+            <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Full name</Form.Label>
                     <Form.Control type="text"
                      placeholder="Enter name"
-                     value={this.state.name}
+                     value={name}
                       name='name'
-                     onChange={this.handleChange}/>
+                     onChange={(e) => setName(e.target.value)}/>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control type="email"
                      placeholder="Enter email"
-                     value={this.state.email}
+                     value={email}
                       name='email'
-                     onChange={this.handleChange}/>
+                     onChange={(e) => setEmail(e.target.value)}/>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Gen</Form.Label>
                     <Form.Control type="number"
                      placeholder="Gen"
-                     value={this.state.gen}
+                     value={gen}
                       name='gen'
-                     onChange={this.handleChange}/>
+                     onChange={(e) => setGen(e.target.value)}/>
                 </Form.Group>
                 <Button variant="primary" type="submit">
                     Submit
                 </Button>
             </Form>
         );
-    }
+    
 }
 
 export default EditUserForm;
